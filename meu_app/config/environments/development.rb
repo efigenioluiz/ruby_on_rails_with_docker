@@ -15,6 +15,11 @@ Rails.application.configure do
   # Enable server timing.
   config.server_timing = true
 
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: ENV['HOST'] || 'localhost', port: ENV['PORT'] || 3000 }
+
   # Enable/disable Action Controller caching. By default Action Controller caching is disabled.
   # Run rails dev:cache to toggle Action Controller caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
