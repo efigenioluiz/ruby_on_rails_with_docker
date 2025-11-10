@@ -1,0 +1,11 @@
+FROM ruby:3.4
+
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client sqlite3
+
+WORKDIR /minha-api
+
+COPY ./minha-api/Gemfile* /minha-api/
+
+RUN bundle install
+
+COPY ./minha-api /minha-api

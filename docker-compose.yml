@@ -7,13 +7,25 @@ services:
       POSTGRES_DB: meu_app_development
     ports:
       - "5432:5432"
-  web:
-    build: .
-    container_name: meu_app
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+  # web:
+  #   build: .
+  #   container_name: meu_app
+  #   command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+  #   volumes:
+  #   - "./meu_app:/meu_app"
+  #   ports:
+  #   - "3000:3000"
+  #   depends_on:
+  #   - db
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+    container_name: minha-api
+    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails s -b 0.0.0.0 -p 8000"
+    # command: "tail -f /dev/null"
     volumes:
-    - "./meu_app:/meu_app"
+    - "./minha-api:/minha-api"
     ports:
-    - "3000:3000"
-    depends_on:
-    - db
+    - "8000:8000"
