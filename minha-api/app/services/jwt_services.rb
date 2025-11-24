@@ -10,15 +10,14 @@ class JwtServices
   end
 
   def self.decode(token)
-    begin
-      decoded = JWT.decode(token, SECRET, true, { algorithm: ALGORITHM })
-      puts "decoded token: #{decoded}"
-      return decoded[0]
-    rescue JWT::ExpiredSignature => e
-      return { json: { error: e.message }, status: :unauthorized }
-    rescue JWT::VerificationError, JWT::DecodeError => e
-      return { json: { error: e.message }, status: :unauthorized }
-    end
+    decoded = JWT.decode(token, SECRET, true, { algorithm: ALGORITHM })
+    decoded[0]
+  rescue JWT::ExpiredSignature => e
+    Rails.logger.info "AUTH ERROR: #{e.class} - #{e.message}"
+    raise e
+  rescue JWT::VerificationError, JWT::DecodeError => e
+    Rails.logger.info "AUTH ERROR: #{e.class} - #{e.message}"
+    raise e
   end
 end
 

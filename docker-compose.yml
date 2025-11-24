@@ -27,5 +27,7 @@ services:
     # command: "tail -f /dev/null"
     volumes:
     - "./minha-api:/minha-api"
+    - "/etc/localtime:/etc/localtime:ro"
+    - "/etc/timezone:/etc/timezone:ro"
     ports:
     - "8000:8000"
